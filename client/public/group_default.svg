@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY st0 "fill:#FFFFFF;">
+	<!ENTITY st1 "fill:#808080;">
+	<!ENTITY st2 "fill:#BFBFBF;">
+	<!ENTITY st3 "fill:#71B1E4;">
+	<!ENTITY st4 "fill:#F7931E;">
+	<!ENTITY st5 "fill:#D9D9D9;">
+]>
+<svg version="1.1" id="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="18px" height="18px" viewBox="0 0 18 18" style="enable-background:new 0 0 18 18;" xml:space="preserve">
+<g id="group.default">
+	<rect x="4" y="3" style="&st3;" width="1" height="13"/>
+	<rect x="2" y="13" style="&st3;" width="13" height="1"/>
+	<polygon style="&st3;" points="2,5 4.5,2 7,5 	"/>
+	<polygon style="&st3;" points="13,11 16,13.5 13,16 	"/>
+	<rect x="7" y="12" style="&st4;" width="1" height="1"/>
+	<rect x="9" y="12" style="&st4;" width="1" height="1"/>
+	<rect x="11" y="12" style="&st4;" width="1" height="1"/>
+	<rect x="5" y="6" style="&st4;" width="1" height="1"/>
+	<rect x="5" y="8" style="&st4;" width="1" height="1"/>
+	<rect x="5" y="10" style="&st4;" width="1" height="1"/>
+</g>
+</svg>
