@@ -17,7 +17,7 @@ class ResultController {
     async update (req,res) {
         const {result,userId,questionId,answerId}=req.body
         const results = await Result.update(
-            ({result,answerId},{where: {userId,questionId}})
+            {result,answerId},({where: {userId,questionId}})
         )
         return res.json(results)
     }

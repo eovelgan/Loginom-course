@@ -5,7 +5,7 @@ import { LOGIN_ROUTE, REGISTRATION_ROUTE, START_ROUTE,TEST_ROUTE } from '../util
 import { check, login, registration } from '../http/userAPI';
 import { Context } from '..';
 import {observer} from 'mobx-react-lite'
-import { fetchAnswers, fetchQuestions,fetchOneQuestion, fetchResults, fetchCountRight } from '../http/testAPI';
+import { fetchAnswers, fetchQuestions,fetchOneQuestion, fetchResults, fetchCountRight, updateResult } from '../http/testAPI';
 import { createResult } from '../http/testAPI';
 const EXAMPLETEST = observer(() => {
     const history =useNavigate()
@@ -21,14 +21,18 @@ const EXAMPLETEST = observer(() => {
    const [questionId,setQuestionId] = useState('')
    const [answerId,setAnswerId] = useState('')
    const [userId,setUserId] = useState(0)
-
+   const [currentQuestion, setCurrentQuestion] = useState(0);
+   const [showScore, setShowScore] = useState(false);
+   const [score, setScore] = useState(0);
+   const [clickedStart, setClickedStart] = useState(false);
+   const [clickedResult, setClickedResult] = useState(false);
 check().then((data1) => {
        // console.log(typeof data1.id);
       //  console.log(data1.id);
         setUserId(data1.id)
     //    return data1;
       })
-      console.log(typeof userId)
+      console.log(userId)
       
    useEffect(() => {
     //    fetchOneQuestion(id).then(data => setQuestion(data))
@@ -36,24 +40,23 @@ check().then((data1) => {
         fetchQuestions().then(data => question1.setQuestions(data))
         fetchResults(userId).then(data => result1.setResults(data))
         fetchCountRight(userId).then(data => result1.setRightResults(data))
-    }, [])
-
+    }, [userId,clickedResult])
+ 
  
 let   count=question1.countQuestions
 
 let nextQuestion=1
 
-//получить id пользователя
-	const [currentQuestion, setCurrentQuestion] = useState(0);
-	const [showScore, setShowScore] = useState(false);
-	const [score, setScore] = useState(0);
-    const [clickedStart, setClickedStart] = useState(false);
-    const [clickedResult, setClickedResult] = useState(false);
+
 
     const handleAnswerOptionClick = () => {
         let data;
+        result1.results ? 
+        data = updateResult(result,questionId,answerId,userId)
+        : 
         data = createResult(result,questionId,answerId,userId)   
 		const nextQuestion = currentQuestion + 1;
+        
 		if (nextQuestion < count) {
 			setCurrentQuestion(nextQuestion);
 		} else {
@@ -79,9 +82,12 @@ variant='success'
 onClick={() => {clickStart()}}
 >Начать тестирование</Button>
 </Container>
-Ваш результат: {result1.rightResults} из {count}
 
-<Table striped bordered hover>
+Ваш результат: {result1.rightResults} из {count}
+            <Button className='mt-2 mb-2 rounded-5' variant='success'
+            onClick={() => {clickResult()}}
+            >Подробный отчёт</Button> 
+             <Table striped bordered hover>
             <thead>
                 <tr>
                 <th>ид результата</th>
@@ -146,7 +152,7 @@ onClick={() => {clickStart()}}
                 
              }
         </div>
-    ) : 
+    ) :  
         <>
     <h2>Вопрос {currentQuestion + 1}/{count} </h2>
         {

@@ -81,7 +81,6 @@ const NavBar = observer( () => {
             <ListGroup.Item action onClick={() => history(STARTWORKING_ROUTE)}  >Начало работы</ListGroup.Item>
             <ListGroup.Item action onClick={() => history(INTERFACE_ROUTE)}>Интерфейс</ListGroup.Item>
             </ListGroup>
-
         </Collapse>
         </ListGroup.Item>
         <ListGroup.Item action
@@ -98,7 +97,6 @@ const NavBar = observer( () => {
             <ListGroup.Item className='ps-5' action onClick={() => history(EXCERCISE1_ROUTE)}>Практическое задание</ListGroup.Item>
             <ListGroup.Item action onClick={() => history(DUBLICATE_ROUTE)}>Дубликаты и противоречия</ListGroup.Item>
             <ListGroup.Item className='ps-5'action onClick={() => history(EXCERCISE_ROUTE)}>Практическое задание</ListGroup.Item>
-            
             </ListGroup>
         </Collapse>
         </ListGroup.Item>

@@ -51,7 +51,7 @@ const Excercise1 = observer(() => {
                 </Form.Control>
         <Button className='mt-3 mb-2 rounded-5' variant={'outline-success'}
          onClick={() =>checkFormula()}
-        >Загрузить</Button>
+        >Проверить</Button>
         {
         clicked ? (check ? 
             <p className="text-success"> Правильно! </p>

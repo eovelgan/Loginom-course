@@ -8,19 +8,29 @@ import {observer} from 'mobx-react-lite'
 import { fetchOneFile } from '../http/fileAPI';
 import axios from 'axios';
 import fileDownload from 'js-file-download'
-
+import { loadXlsxFromBuffer } from './download';
 const Excercise = observer(() => {
+
+
+
 
   const downloadFile = async () => {
       try {
         const response=await axios.get('http://localhost:5000/api/file/2')
-          
-        console.log(response.data)
+        const response_file=await axios.get(`http://localhost:5000/api/${response.data.file}`)
+
+        const blob = new Blob([`${response_file}`])
+        const newblob =await (await blob.arrayBuffer())
+        console.log(newblob)
+        loadXlsxFromBuffer(newblob);
+
       } catch (e) {
+        console.log(e)
         alert(e.response.data.message)
       }
   }
 
+  
   return (
     
     <Container className="d-flex justify-content-center align-items-center"
