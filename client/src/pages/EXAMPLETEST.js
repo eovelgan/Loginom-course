@@ -26,7 +26,6 @@ const EXAMPLETEST = observer(() => {
    const [score, setScore] = useState(0);
    const [clickedStart, setClickedStart] = useState(false);
    const [clickedResult, setClickedResult] = useState(false);
-   console.log('userId=', userId)
 check().then((data1) => {
        // console.log(typeof data1.id);
       //  console.log(data1.id);
@@ -34,51 +33,42 @@ check().then((data1) => {
     //    return data1;
       })
       console.log('userId=', userId)
-      
+      console.log('clickedResult=', clickedResult)
    useEffect(() => {
     //    fetchOneQuestion(id).then(data => setQuestion(data))
         fetchAnswers().then(data => answer1.setAnswers(data))
         fetchQuestions().then(data => question1.setQuestions(data))
         fetchResults(userId).then(data => result1.setResults(data))
         fetchCountRight(userId).then(data => result1.setRightResults(data))
-    }, [userId,clickedResult,showScore])
- 
+    }, [userId,clickedResult])
+    console.log('rightResults=', result1.results[0])
 let   count=question1.countQuestions
 
 let nextQuestion=1
 
 
-    const handleAnswerOptionClick = () => {
-        if (typeof (answer1.selectedAnswer.id) !== 'undefined') {
-            let data;
-            result1.results ? 
-            data = updateResult(result,questionId,answerId,userId)
-            : 
-            data = createResult(result,questionId,answerId,userId)   
-            const nextQuestion = currentQuestion + 1;
-            
-            if (nextQuestion < count) {
-                setCurrentQuestion(nextQuestion);
-            } else {
-                setShowScore(true);
-            }
- 
-        }
-       
-	};
-
-
-    const clickStart = () => {
-        setClickedStart(true)
-	};
-
-    const clickResult = () => {
-        setClickedResult(true)
-	};
+const handleAnswerOptionClick = () => {
+if (typeof (answer1.selectedAnswer.id) !== 'undefined') 
+{
+    let data;
+    result1.results[0] ? 
+    data = updateResult(result,questionId,answerId,userId)
+    : 
+    data = createResult(result,questionId,answerId,userId)   
+    const nextQuestion = currentQuestion + 1;
+    
+    if (nextQuestion < count) {
+        setCurrentQuestion(nextQuestion);
+    } else {
+        setShowScore(true);
+    }
+}
+};
 
 
 const showTable = () => {
-    return <Table striped bordered hover>
+    return <>Ваш результат: {result1.rightResults} из {count} 
+      <Table striped bordered hover>
     <thead>
         <tr>
         <th>Вопрос</th>
@@ -101,6 +91,8 @@ const showTable = () => {
     ))))
     )}
 </Table>
+    </>
+  
 }
 
   return (
@@ -109,29 +101,29 @@ const showTable = () => {
 
 <Container className={clickedStart ? 'd-flex justify-content-center align-items-center flex-column invisible' : 'd-flex justify-content-center align-items-center flex-column'}
 style={clickedStart ? {height:0} : {height:500}  }>
-{result1.results ? 
+{result1.results[0] ? 
 <>
-<p className='text-center'>Ваш предыдущий результат: {result1.rightResults} из {count} </p> 
-{showTable() }
+
+{showTable()}
 </>
     : null}
 <Button className='mt-2 rounded-5'
 variant='success'
-onClick={() => {clickStart()}}
->{result1.results ? 'Пройти тестирование заново' : 'Начать тестирование'}</Button>
+onClick={() => {setClickedStart(true)}}
+>{result1.results[0] ? 'Пройти тестирование заново' 
+: 'Начать тестирование'}</Button>
 </Container>
 
 {clickedStart ? 
     (showScore ? (
         <div className='d-flex align-items-center flex-column'>
-            Ваш результат: {result1.rightResults} из {count}
+            
             <Button className='mt-2 mb-2 rounded-5' variant='success'
-            onClick={() => {clickResult()}}
-            >Подробный отчёт</Button> 
+            onClick={() => {setClickedResult(true)}}
+            >Показать результаты</Button> 
              { clickedResult ? 
                 showTable()
              : null
-                
              }
         </div>
     ) :  
