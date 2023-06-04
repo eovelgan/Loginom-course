@@ -19,20 +19,21 @@ const EXAMPLETEST = observer(() => {
    // const {id}=useParams()
    const [result,setResult] = useState('')
    const [questionId,setQuestionId] = useState('')
-   const [answerId,setAnswerId] = useState('')
+   const [answerId,setAnswerId] = useState(0)
    const [userId,setUserId] = useState(0)
    const [currentQuestion, setCurrentQuestion] = useState(0);
    const [showScore, setShowScore] = useState(false);
    const [score, setScore] = useState(0);
    const [clickedStart, setClickedStart] = useState(false);
    const [clickedResult, setClickedResult] = useState(false);
+   console.log('userId=', userId)
 check().then((data1) => {
        // console.log(typeof data1.id);
       //  console.log(data1.id);
         setUserId(data1.id)
     //    return data1;
       })
-      console.log(userId)
+      console.log('userId=', userId)
       
    useEffect(() => {
     //    fetchOneQuestion(id).then(data => setQuestion(data))
@@ -40,29 +41,32 @@ check().then((data1) => {
         fetchQuestions().then(data => question1.setQuestions(data))
         fetchResults(userId).then(data => result1.setResults(data))
         fetchCountRight(userId).then(data => result1.setRightResults(data))
-    }, [userId,clickedResult])
- 
+    }, [userId,clickedResult,showScore])
  
 let   count=question1.countQuestions
 
 let nextQuestion=1
 
 
-
     const handleAnswerOptionClick = () => {
-        let data;
-        result1.results ? 
-        data = updateResult(result,questionId,answerId,userId)
-        : 
-        data = createResult(result,questionId,answerId,userId)   
-		const nextQuestion = currentQuestion + 1;
-        
-		if (nextQuestion < count) {
-			setCurrentQuestion(nextQuestion);
-		} else {
-			setShowScore(true);
-		}
+        if (typeof (answer1.selectedAnswer.id) !== 'undefined') {
+            let data;
+            result1.results ? 
+            data = updateResult(result,questionId,answerId,userId)
+            : 
+            data = createResult(result,questionId,answerId,userId)   
+            const nextQuestion = currentQuestion + 1;
+            
+            if (nextQuestion < count) {
+                setCurrentQuestion(nextQuestion);
+            } else {
+                setShowScore(true);
+            }
+ 
+        }
+       
 	};
+
 
     const clickStart = () => {
         setClickedStart(true)
@@ -72,47 +76,50 @@ let nextQuestion=1
         setClickedResult(true)
 	};
 
+
+const showTable = () => {
+    return <Table striped bordered hover>
+    <thead>
+        <tr>
+        <th>Вопрос</th>
+        <th>Выбранный ответ</th>
+        <th>Правильность</th>
+        </tr>
+    </thead>
+{ question1.questions.map(question =>
+( result1.results.map(result =>
+    (answer1.answers.map(answer =>
+    question.id===result.questionId && answer.id===result.answerId ? 
+    <tbody>
+        <tr>
+        <td>{result.questionId}. {question.name}</td>
+        <td>{answer.name}</td>
+        <td>{result.result ?  <p className="text-success fw-bold"> Верно </p> :  <p className="text-danger fw-bold"> Неверно </p>}</td>
+        </tr>
+    </tbody>
+    : null
+    ))))
+    )}
+</Table>
+}
+
   return (
-    <Container className="d-flex justify-content-center align-items-center flex-column"
+    <Container className='d-flex justify-content-center align-items-center flex-column'
     >  
-<Container className='d-flex justify-content-center align-items-center flex-column'
+
+<Container className={clickedStart ? 'd-flex justify-content-center align-items-center flex-column invisible' : 'd-flex justify-content-center align-items-center flex-column'}
 style={clickedStart ? {height:0} : {height:500}  }>
-<Button className={clickedStart ? 'mt-2 rounded-5 invisible' : 'mt-2 rounded-5'} 
+{result1.results ? 
+<>
+<p className='text-center'>Ваш предыдущий результат: {result1.rightResults} из {count} </p> 
+{showTable() }
+</>
+    : null}
+<Button className='mt-2 rounded-5'
 variant='success'
 onClick={() => {clickStart()}}
->Начать тестирование</Button>
+>{result1.results ? 'Пройти тестирование заново' : 'Начать тестирование'}</Button>
 </Container>
-
-Ваш результат: {result1.rightResults} из {count}
-            <Button className='mt-2 mb-2 rounded-5' variant='success'
-            onClick={() => {clickResult()}}
-            >Подробный отчёт</Button> 
-             <Table striped bordered hover>
-            <thead>
-                <tr>
-                <th>ид результата</th>
-                <th>Вопрос</th>
-                <th>Выбранный ответ</th>
-                <th>Правильность</th>
-                </tr>
-            </thead>
-        { question1.questions.map(question =>
-        ( result1.results.map(result =>
-            (answer1.answers.map(answer =>
-            question.id===result.questionId && answer.id===result.answerId ? 
-            <tbody>
-                <tr>
-                <td>{result.id}</td>
-                <td>{result.questionId}. {question.name}</td>
-                <td>{answer.name}</td>
-                <td>{result.result ?  <p className="text-success fw-bold"> Верно </p> :  <p className="text-danger fw-bold"> Неверно </p>}</td>
-                </tr>
-            </tbody>
-            : null
-            ))))
-            )}
-</Table>
-
 
 {clickedStart ? 
     (showScore ? (
@@ -122,32 +129,7 @@ onClick={() => {clickStart()}}
             onClick={() => {clickResult()}}
             >Подробный отчёт</Button> 
              { clickedResult ? 
-             <Table striped bordered hover>
-            <thead>
-                <tr>
-                <th>ид результата</th>
-                <th>Вопрос</th>
-                <th>Выбранный ответ</th>
-                <th>Правильность</th>
-                </tr>
-            </thead>
-        { question1.questions.map(question =>
-        ( result1.results.map(result =>
-            (answer1.answers.map(answer =>
-            question.id===result.questionId && answer.id===result.answerId ? 
-            <tbody>
-                <tr>
-                <td>{result.id}</td>
-                <td>{result.questionId}. {question.name}</td>
-                <td>{answer.name}</td>
-                <td>{result.result ?  <p className="text-success fw-bold"> Верно </p> :  <p className="text-danger fw-bold"> Неверно </p>}</td>
-                </tr>
-            </tbody>
-            : null
-            ))))
-            )}
-</Table>
-             
+                showTable()
              : null
                 
              }
@@ -173,7 +155,7 @@ onClick={() => {clickStart()}}
                 setQuestionId(answer.questionId)
                 setResult(answer.correct)
               //  getUser()
-                console.log(result)
+             //   console.log(result)
             //      handleAnswerOptionClick(answer.correct)
                     }
                 } > 
@@ -182,8 +164,10 @@ onClick={() => {clickStart()}}
             )
             }
         </Form>
+        {console.log('answerId=', answer1.selectedAnswer.id)}
         <Button className='ms-2 mt-2 mb-3 rounded-5' variant='warning' onClick={() => 
-        handleAnswerOptionClick()}> Далее</Button>
+        handleAnswerOptionClick()}
+        > Далее</Button>
     </>
     )
 : null 

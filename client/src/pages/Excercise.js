@@ -9,6 +9,7 @@ import { fetchOneFile } from '../http/fileAPI';
 import axios from 'axios';
 import fileDownload from 'js-file-download'
 import { loadXlsxFromBuffer } from './download';
+import ButtonLoad from './ButtonLoad';
 const Excercise = observer(() => {
 
 
@@ -43,9 +44,11 @@ const Excercise = observer(() => {
  используя несколько следующие обработчики: дубликаты и противоречия, 
  фильтр строк, группировка и объединение. Полученную таблицу в формате .xlsx загрузите на портал.
  </p>
- <Button className='mb-2 rounded-5' variant={'warning'} 
- onClick={() =>downloadFile()}
- >Скачать таблицу</Button>
+ <ButtonLoad
+ unicId={'dsfdsf'}
+ >{'Скачать таблицу'}</ButtonLoad>
+
+
 <p>Загрузить файл:</p>
     <Form.Control
         className='mt-1 rounded-5'
