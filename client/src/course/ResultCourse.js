@@ -1,11 +1,11 @@
-import {makeAutoObservable} from 'mobx'
+import { makeAutoObservable } from 'mobx'
 
 export default class ResultCourse {
     constructor() {
-        this._results=[]
+        this._results = []
 
-        this._rightResults=0
-        this._selectedResult={}
+        this._rightResults = 0
+        this._selectedResult = {}
         makeAutoObservable(this)
     }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY st0 "fill:#FFFFFF;">
+	<!ENTITY st1 "fill:#BFBFBF;">
+	<!ENTITY st2 "fill:#F7931E;">
+	<!ENTITY st3 "fill:#8C8C8C;">
+	<!ENTITY st4 "fill:#71B1E4;">
+	<!ENTITY st5 "fill:none;stroke:#F7931E;stroke-miterlimit:10;">
+	<!ENTITY st6 "fill:none;">
+]>
+<svg version="1.1" id="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="18px" height="18px" viewBox="0 0 18 18" style="enable-background:new 0 0 18 18;" xml:space="preserve">
+<g id="calc-data.default">
+	<path style="&st2;" d="M13,3c0.551,0,1,0.448,1,1v10c0,0.552-0.449,1-1,1H5c-0.551,0-1-0.448-1-1V4c0-0.552,0.449-1,1-1H13 M13,2H5
+		C3.896,2,3,2.895,3,4v10c0,1.104,0.896,2,2,2h8c1.104,0,2-0.896,2-2V4C15,2.895,14.104,2,13,2L13,2z"/>
+	<g>
+		<rect x="5" y="4" style="&st4;" width="8" height="3"/>
+	</g>
+	<rect x="5" y="9" style="&st4;" width="2" height="1"/>
+	<rect x="8" y="9" style="&st4;" width="2" height="1"/>
+	<rect x="11" y="9" style="&st4;" width="2" height="1"/>
+	<rect x="5" y="11" style="&st4;" width="2" height="1"/>
+	<rect x="8" y="11" style="&st4;" width="2" height="1"/>
+	<rect x="11" y="11" style="&st4;" width="2" height="1"/>
+	<rect x="5" y="13" style="&st4;" width="2" height="1"/>
+	<rect x="8" y="13" style="&st4;" width="2" height="1"/>
+	<rect x="11" y="13" style="&st4;" width="2" height="1"/>
+</g>
+</svg>

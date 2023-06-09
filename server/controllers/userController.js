@@ -1,51 +1,70 @@
-const ApiError=require ('../error/ApiError')
+const ApiError = require('../error/ApiError')
 const { query } = require("../db")
-const bcrypt= require ('bcrypt')
-const jwt= require ('jsonwebtoken')
-const {User, Basket}= require ('../models/models')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const { User, Basket, Lecture } = require('../models/models')
 
-const generateJwt=(id,email,role) => {
+const generateJwt = (id, email, role) => {
     return jwt.sign(
-        {id, email, role}, 
+        { id, email, role },
         process.env.SECRET_KEY,
-        {expiresIn:'24h'}
-        )
-        
+        { expiresIn: '24h' }
+    )
 }
+
 class UserController {
-    async registration (req,res,next) {
-        const {email,password,firstname,lastname,surname,role}=req.body
-        if (!email || !password || !firstname || !lastname  || !surname) {
-            return next(ApiError.badRequest('Все поля должны быть заполнены!'))            
+
+    async registration(req, res, next) {
+        const { email, password, firstname, lastname, surname, role } = req.body
+        if (!email || !password || !firstname || !lastname || !surname) {
+            return next(ApiError.badRequest('Все поля должны быть заполнены!'))
         }
-        const candidate = await User.findOne({where: {email}})
+
+        const candidate = await User.findOne({ where: { email } })
         if (candidate) {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
-        const hashPassword = await bcrypt.hash(password,5)
-        const user = await User.create({email,role,firstname,lastname,surname,password: hashPassword})
-      //  const basket = await Basket.create({userId: user.id})
-        const token= generateJwt(user.id, user.email, user.role)
-        return res.json({token})
+
+        const hashPassword = await bcrypt.hash(password, 5)
+        const user = await User.create({ email, role, firstname, lastname, surname, password: hashPassword })
+        //  const basket = await Basket.create({userId: user.id})
+        const token = generateJwt(user.id, user.email, user.role)
+        return res.json({ token })
     }
-    async login (req,res,next) {
-        const {email,password}=req.body
-        const user = await User.findOne({where:{email}})
+
+    async login(req, res, next) {
+        const { email, password } = req.body
+        const user = await User.findOne({ where: { email } })
         if (!user) {
             return next(ApiError.internal('Пользователь с таким именем не найден'))
         }
-        let comparePassword = bcrypt.compareSync(password,user.password)
+
+        let comparePassword = bcrypt.compareSync(password, user.password)
         if (!comparePassword) {
-            return next (ApiError.internal('Указан неверный пароль'))
+            return next(ApiError.internal('Указан неверный пароль'))
         }
-        const token=generateJwt(user.id, user.email, user.role)
-        return res.json({token})
-    }
-    async check (req,res,next) {
-        const token = generateJwt (req.user.id, req.user.email, req.user.role)
-        return res.json({token})
+
+        const token = generateJwt(user.id, user.email, user.role)
+        return res.json({ token })
     }
 
+    async check(req, res, next) {
+        const token = generateJwt(req.user.id, req.user.email, req.user.role)
+        return res.json({ token })
+    }
 
+    async getProgress(req, res) {
+        const { id } = req.params;
+    
+        const user = await User.findOne(
+            {
+                where: { id },
+                include: Lecture
+            },
+        )
+    
+        return res.json(user.Lecture)
+    }
 }
-module.exports=new UserController()
+
+module.exports = new UserController()

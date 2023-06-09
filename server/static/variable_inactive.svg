@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY st0 "fill:#71B1E4;">
+	<!ENTITY st1 "fill:#E3EFFA;">
+	<!ENTITY st2 "fill:#5195CA;">
+	<!ENTITY st3 "fill:#E30612;">
+	<!ENTITY st4 "fill:#FFCCCC;">
+	<!ENTITY st5 "fill:#F7931E;">
+	<!ENTITY st6 "fill:#FDE9D2;">
+	<!ENTITY st7 "fill:#E67300;">
+	<!ENTITY st8 "fill:#39B54A;">
+	<!ENTITY st9 "fill:#CCF4D1;">
+	<!ENTITY st10 "fill:#009B14;">
+	<!ENTITY st11 "fill:#757981;">
+	<!ENTITY st12 "fill:#EBECEF;">
+	<!ENTITY st13 "fill:#303135;">
+	<!ENTITY st14 "fill:#BAC0CF;">
+	<!ENTITY st15 "fill:#EAECF1;">
+	<!ENTITY st16 "fill:#48484E;">
+]>
+<svg version="1.1" id="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="15px" height="24px" viewBox="0 0 15 24" style="enable-background:new 0 0 15 24;" xml:space="preserve">
+<g id="variable.inactive">
+	<g>
+		<path style="&st11;" d="M13,2v20C7.477,22,3,17.523,3,12S7.477,2,13,2z"/>
+	</g>
+	<g>
+		<path style="&st12;" d="M12,3.055C7.506,3.554,4,7.375,4,12s3.506,8.446,8,8.945V3.055z"/>
+	</g>
+</g>
+</svg>

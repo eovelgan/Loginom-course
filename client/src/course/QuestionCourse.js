@@ -1,10 +1,10 @@
-import {makeAutoObservable} from 'mobx'
+import { makeAutoObservable } from 'mobx'
 
 export default class QuestionCourse {
     constructor() {
-        this._questions=[]
-        
-        this._selectedQuestion={}
+        this._questions = []
+
+        this._selectedQuestion = {}
         makeAutoObservable(this)
     }
     setQuestions(questions) {
