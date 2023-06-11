@@ -1,7 +1,7 @@
 import { $authHost } from "./index";
 
 export const fetchLectureProgress = async (userId) => {
-    const { data } = await $authHost.get('api/user_lecture' + {
+    const { data } = await $authHost.get('api/user_lecture', {
         params: {
             userId
         }
