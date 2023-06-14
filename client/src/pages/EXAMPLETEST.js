@@ -100,7 +100,7 @@ const EXAMPLETEST = observer(() => {
         >
 
             <Container className={clickedStart ? 'd-flex justify-content-center align-items-center flex-column invisible' : 'd-flex justify-content-center align-items-center flex-column'}
-                style={clickedStart ? { height: 0 } : { height: 500 }}>
+                style={clickedStart ? { display: 'none !important' } : { }}>
                 {result1.results[0] ?
                     <>
 

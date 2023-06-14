@@ -6,7 +6,7 @@ module.exports = function (req, res, next) {
     }
 
     try {
-        const token = req.headers.authorization.split(' ')[1]
+        const token = req.headers.authorization?.split(' ')[1]
         
         if (!token) {
             return res.status(401).json({ message: "Не авторизован" })
@@ -16,6 +16,6 @@ module.exports = function (req, res, next) {
         req.user = decoded
         next()
     } catch (e) {
-        res.status(500).json({ message: 'Непредвиденная ошибка' })
+        res.status(500).json({ message: 'Непредвиденная ошибка in auth middleware: ' + e.message  })
     }
 }

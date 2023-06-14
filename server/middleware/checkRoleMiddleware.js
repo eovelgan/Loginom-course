@@ -16,7 +16,7 @@ module.exports = function (role) {
             req.user = decoded
             next()
         } catch (e) {
-            res.status(500).json({ message: 'Непредвиденная ошибка' })
+            res.status(500).json({ message: 'Непредвиденная ошибка in role middleware: ' + e.message })
         }
     }
 }

@@ -11,7 +11,6 @@ import { fetchTypes } from './http/deviceAPI';
 
 
 const App = observer (()=> {
-//  const {device}=useContext(Context)
   const {user}=useContext(Context)
 
   const [loading, setLoading]=useState(true)
@@ -22,12 +21,6 @@ const App = observer (()=> {
         user.setIsAuth(true)
       }).finally(() => setLoading(false))
   },[])
-
-  /*
-  useEffect(() => {
-  fetchTypes().then(data => device.setTypes(data))
-},[])
-*/
 
   if (loading) {
     return <Spinner animation={"border"}/>

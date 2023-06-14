@@ -2,7 +2,7 @@ const ApiError = require('../error/ApiError')
 const { query } = require("../db")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { User, Basket, Lecture } = require('../models/models')
+const { User, Basket, Lecture, Excercise, User_Lecture, User_Excercise } = require('../models/models')
 
 const generateJwt = (id, email, role) => {
     return jwt.sign(
@@ -53,17 +53,89 @@ class UserController {
         return res.json({ token })
     }
 
-    async getProgress(req, res) {
+    async getLectureProgress(req, res) {
         const { id } = req.params;
-    
+        
+        if (!id || id === 'undefined') return res.json([]);
+
         const user = await User.findOne(
             {
                 where: { id },
                 include: Lecture
             },
         )
-    
-        return res.json(user.Lecture)
+
+        return res.json(user?.lectures ? user.lectures : [])
+    }
+
+    async addLectureProgress(req, res, next) {
+        try {
+            const { id, lectureId } = req.params;
+
+            const existing = await User_Lecture.findOne({
+                userId: id,
+                lectureId: lectureId
+            })
+
+            if (existing) {
+                return existing;
+            }
+
+            const ul = await User_Lecture.create(
+                {
+                    userId: id,
+                    lectureId: lectureId
+                },
+            )
+
+            return res.json(ul)
+        } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e))
+        }
+    }
+
+    async getExcerciseProgress(req, res) {
+        const { id } = req.params;
+        
+        if (!id || id === 'undefined') return res.json([]);
+
+        const user = await User.findOne(
+            {
+                where: { id },
+                include: Excercise
+            },
+        )
+
+        return res.json(user?.excercises ? user.excercises : [])
+    }
+
+    async addExcerciseProgress(req, res, next) {
+        try {
+
+            const { id, excerciseId } = req.params;
+
+            const existing = await User_Excercise.findOne({
+                userId: id,
+                excerciseId: excerciseId
+            })
+
+            if (existing) {
+                return existing;
+            }
+
+            const ue = await User_Excercise.create(
+                {
+                    userId: id,
+                    excerciseId: excerciseId
+                },
+            )
+
+            return res.json(ue)
+        } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e))
+        }
     }
 }
 
