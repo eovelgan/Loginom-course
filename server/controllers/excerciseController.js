@@ -7,26 +7,6 @@ const XLSX = require('xlsx');
 
 class ExcerciseController {
 
-    async getOneFileAsJson(req, res) {
-        try {
-            const { id } = req.params
-            const file = await Excercise.findOne(
-                {
-                    where: { id }
-                },
-            )
-            const fileName = file.fileForCompare;
-            const workbook = XLSX.readFile(path.resolve(__dirname, '..', 'static', fileName));
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const json = XLSX.utils.sheet_to_json(worksheet);
-            return res.json(json)
-        } catch (error) {
-            return res.json(error)
-        }
-
-    }
-
     async create(req, res, next) {
         try {
             let { name, text, rightAnswer } = req.body
@@ -97,7 +77,7 @@ class ExcerciseController {
 
         let fileAnswerCorrect = true;
         if (excercise.fileForCompare) {
-            const fileName = file.fileForCompare;
+            const fileName = excercise.fileForCompare;
             const workbook = XLSX.readFile(path.resolve(__dirname, '..', 'static', fileName));
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];

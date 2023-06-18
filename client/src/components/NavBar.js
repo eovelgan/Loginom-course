@@ -1,17 +1,14 @@
 import React, { useContext, useState, useTransition } from 'react'
 import { Context } from "../index";
-import { Button, Card, Container, Form, Offcanvas, ListGroup, Dropdown, DropdownButton, NavDropdown, Image } from 'react-bootstrap';
+import { Button, Card, Container, Form, Offcanvas, ListGroup, Dropdown, DropdownButton, NavDropdown, Image, Accordion } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavLink, useNavigate } from "react-router-dom";
-import { START2_ROUTE, LOGIN_ROUTE, CABINET_ROUTE, EXCERCISE2_ROUTE, EXCERCISE1_ROUTE, EXAMPLETEST_ROUTE, LECTURE_ROUTE, EXCERCISE_ROUTE, START_ROUTE } from "../utils/consts";
+import { LOGIN_ROUTE, CABINET_ROUTE, LECTURE_ROUTE, EXCERCISE_ROUTE, START_ROUTE, TEST_ROUTE } from "../utils/consts";
 import { observer } from 'mobx-react-lite'
-import Collapse from 'react-bootstrap/Collapse';
 
 const NavBar = observer(() => {
 
-  const [open_proc, setOpenProc] = useState(false);
-  const [open_start, setOpenStart] = useState(false);
   const { user } = useContext(Context)
   const history = useNavigate()
   const logOut = () => {
@@ -46,6 +43,7 @@ const NavBar = observer(() => {
   const dublicateExcercise = () => {
     history(EXCERCISE_ROUTE + '/2')
   }
+
   return (
     <>
       {[false].map((expand) => (
@@ -93,26 +91,22 @@ const NavBar = observer(() => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item action
-                    onClick={() => setOpenStart(!open_start)}
-                    aria-expanded={open_start}
-                    className="fw-bold"
-                  >Основные сведения о Loginom
-                    <Collapse in={open_start}>
-                      <ListGroup variant="flush" >
+
+
+              <Accordion defaultActiveKey="2" flush>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Основные сведения о Loginom</Accordion.Header>
+                <Accordion.Body>
+                <ListGroup variant="flush" >
                         <ListGroup.Item action onClick={() => startLecture()}  >Начало работы</ListGroup.Item>
                         <ListGroup.Item action onClick={() => interfaceLecture()}>Интерфейс</ListGroup.Item>
                       </ListGroup>
-                    </Collapse>
-                  </ListGroup.Item>
-                  <ListGroup.Item action
-                    onClick={() => setOpenProc(!open_proc)}
-                    aria-expanded={open_proc}
-                    className="fw-bold"
-                  >Обработка данных
-                    <Collapse in={open_proc}>
-                      <ListGroup variant="flush" >
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>Обработка данных</Accordion.Header>
+                <Accordion.Body>
+                <ListGroup variant="flush" >
                         <ListGroup.Item action onClick={() => filtationLecture()}  >Фильтрация данных</ListGroup.Item>
                         <ListGroup.Item action onClick={() => unionLecture()}>Объединение таблиц</ListGroup.Item>
                         <ListGroup.Item action onClick={() => groupingLecture()}>Группировка таблиц</ListGroup.Item>
@@ -121,10 +115,16 @@ const NavBar = observer(() => {
                         <ListGroup.Item action onClick={() => dublicateLecture()}>Дубликаты и противоречия</ListGroup.Item>
                         <ListGroup.Item className='ps-5' action onClick={() => dublicateExcercise()}>Практическое задание</ListGroup.Item>
                       </ListGroup>
-                    </Collapse>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="fw-bold" action onClick={() => history(EXAMPLETEST_ROUTE)} >Итоговое тестирование</ListGroup.Item>
-                </ListGroup>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="2">
+              <ListGroup variant="flush" >
+                  <ListGroup.Item 
+                  style={{ height: '50px'}}
+                  action onClick={() => history(TEST_ROUTE) } >Итоговое тестирование</ListGroup.Item>
+              </ListGroup>
+              </Accordion.Item>
+            </Accordion>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

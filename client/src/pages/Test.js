@@ -7,16 +7,13 @@ import { Context } from '..';
 import { observer } from 'mobx-react-lite'
 import { fetchAnswers, fetchQuestions, fetchOneQuestion, fetchResults, fetchCountRight, updateResult } from '../http/testAPI';
 import { createResult } from '../http/testAPI';
-const EXAMPLETEST = observer(() => {
+const Test = observer(() => {
     const history = useNavigate()
     const { answer1 } = useContext(Context)
     const { user } = useContext(Context)
     const { result1 } = useContext(Context)
     const { question1 } = useContext(Context)
 
-    // const [question, setQuestion] = useState({info: []})
-
-    // const {id}=useParams()
     const [result, setResult] = useState('')
     const [questionId, setQuestionId] = useState('')
     const [answerId, setAnswerId] = useState(0)
@@ -28,25 +25,19 @@ const EXAMPLETEST = observer(() => {
     const [clickedResult, setClickedResult] = useState(false);
     
     check().then((data1) => {
-        // console.log(typeof data1.id);
-        //  console.log(data1.id);
         setUserId(data1.id)
-        //    return data1;
     })
     console.log('userId=', userId)
     console.log('clickedResult=', clickedResult)
     useEffect(() => {
-        //    fetchOneQuestion(id).then(data => setQuestion(data))
         fetchAnswers().then(data => answer1.setAnswers(data))
         fetchQuestions().then(data => question1.setQuestions(data))
         fetchResults(userId).then(data => result1.setResults(data))
         fetchCountRight(userId).then(data => result1.setRightResults(data))
     }, [userId, clickedResult])
-    console.log('rightResults=', result1.results[0])
     let count = question1.countQuestions
 
     let nextQuestion = 1
-
 
     const handleAnswerOptionClick = () => {
         if (typeof (answer1.selectedAnswer.id) !== 'undefined') {
@@ -63,6 +54,8 @@ const EXAMPLETEST = observer(() => {
                 setShowScore(true);
             }
         }
+        else 
+        alert('Пожалуйста, выберите ответ!')
     };
 
 
@@ -92,7 +85,6 @@ const EXAMPLETEST = observer(() => {
                 )}
             </Table>
         </>
-
     }
 
     return (
@@ -100,10 +92,9 @@ const EXAMPLETEST = observer(() => {
         >
 
             <Container className={clickedStart ? 'd-flex justify-content-center align-items-center flex-column invisible' : 'd-flex justify-content-center align-items-center flex-column'}
-                style={clickedStart ? { display: 'none !important' } : { }}>
+                style={clickedStart ? { height: '0px' } : { }}>
                 {result1.results[0] ?
                     <>
-
                         {showTable()}
                     </>
                     : null}
@@ -147,9 +138,6 @@ const EXAMPLETEST = observer(() => {
                                                     setAnswerId(answer.id)
                                                     setQuestionId(answer.questionId)
                                                     setResult(answer.correct)
-                                                    //  getUser()
-                                                    //   console.log(result)
-                                                    //      handleAnswerOptionClick(answer.correct)
                                                 }
                                             } >
                                             {answer.name}
@@ -169,4 +157,4 @@ const EXAMPLETEST = observer(() => {
     );
 });
 
-export default EXAMPLETEST;
+export default Test;

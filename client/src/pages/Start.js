@@ -1,8 +1,5 @@
-import React, { useContext, useState, useTransition } from 'react'
-import {Button, Card, Container, Form, Row, Image} from 'react-bootstrap';
-import { NavLink,useLocation, useNavigate } from 'react-router-dom';
-import { LOGIN_ROUTE, REGISTRATION_ROUTE, START_ROUTE } from '../utils/consts';
-import { login, registration } from '../http/userAPI';
+import React, { useContext } from 'react'
+import { Container} from 'react-bootstrap';
 import { Context } from '..';
 import {observer} from 'mobx-react-lite'
 
@@ -20,7 +17,7 @@ const Start = observer(() => {
             user.isAuth ? 
             <p>Спасибо за регистрацию!</p>
            : 
-            <p>Для доступа к сервису, пожалуйста, зарегестрируйтесь или ввойдите в аккаунт.</p>
+            <p>Для доступа к сервису, пожалуйста, зарегестрируйтесь или войдите в аккаунт.</p>
           }
         </div>
     </Container>

@@ -7,7 +7,6 @@ import { Context } from './index';
 import {check} from "./http/userAPI"
 
 import { Spinner } from 'react-bootstrap';
-import { fetchTypes } from './http/deviceAPI';
 
 
 const App = observer (()=> {

@@ -19,4 +19,5 @@ export default class UserCourse {
     get user() {
         return this._user
     }
+
 }

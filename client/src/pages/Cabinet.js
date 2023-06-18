@@ -1,12 +1,10 @@
 import React, { useContext, useState, useTransition, useEffect } from 'react'
 import { Button, Card, Container, Form, Row, ListGroup, Table } from 'react-bootstrap';
-import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { LOGIN_ROUTE, REGISTRATION_ROUTE, START_ROUTE, TEST_ROUTE } from '../utils/consts';
-import { check } from '../http/userAPI';
+import { check, fetchUser } from '../http/userAPI';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite'
 import { fetchLectureProgress, fetchExcerciseProgress } from '../http/progressAPI';
-import { fetchAnswers, fetchQuestions, fetchOneQuestion, fetchResults, fetchCountRight, updateResult } from '../http/testAPI';
+import { fetchAnswers, fetchQuestions, fetchResults } from '../http/testAPI';
 const Cabinet = observer(() => {
   const { answer1 } = useContext(Context)
   const { result1 } = useContext(Context)
@@ -14,11 +12,13 @@ const Cabinet = observer(() => {
   const [lectureProgress, setLectureProgress] = useState([])
   const [excerciseProgress, setexcerciseProgress] = useState([])
   const [userId, setUserId] = useState(0)
+  const [user, setUser] = useState([])
+
   check().then((data1) => {
     setUserId(data1.id)
   })
-
   useEffect(() => {
+    fetchUser(userId).then(data=>setUser(data))
     fetchLectureProgress(userId).then(data => setLectureProgress(data))
     fetchExcerciseProgress(userId).then(data => setexcerciseProgress(data))
     fetchAnswers().then(data => answer1.setAnswers(data))
@@ -28,12 +28,15 @@ const Cabinet = observer(() => {
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center">
-
+      <p>Ваше имя:</p> 
+      <p>{user?.lastname} {user?.firstname} {user?.surname}  </p>
       {
         lectureProgress.length
           ?
           <>
-            <Table striped bordered hover>
+            <Table striped bordered hover 
+            style={{ width: 700 }} 
+            >
               <caption> <h6>Вы уже изучили следующие лекции:</h6></caption>
               <thead>
                 <tr>
@@ -44,12 +47,15 @@ const Cabinet = observer(() => {
               <tbody>
               {
                 lectureProgress.map(lecture =>
-                (
-                  <tr>
-                    <td>{lecture.name}</td>
-                    <td>{lecture.updatedAt.substring(0, 10)}</td>
-                  </tr>
-                ))
+                  (
+                    <tr>
+                      <td>{lecture.name}</td>
+                      <td>{lecture.User_Lecture.updatedAt.substring(0, 10)}</td>
+                    </tr>
+                  )
+                  
+                )
+                
               }
               </tbody>
             </Table>
@@ -57,13 +63,13 @@ const Cabinet = observer(() => {
           : <div><p>Вы не изучили ни одной лекции</p></div>                                 
       }
 
-
-
 {
         excerciseProgress.length
           ?
           <>
-            <Table striped bordered hover>
+            <Table striped bordered hover
+            style={{ width: 700 }} 
+            >
               <caption> <h6>Вы уже выполнили следующие практические задания:</h6></caption>
               <thead>
                 <tr>
@@ -77,7 +83,7 @@ const Cabinet = observer(() => {
                 (
                   <tr>
                     <td>{excercise.name}</td>
-                    <td>{excercise.updatedAt.substring(0, 10)}</td>
+                    <td>{excercise.User_Excercise.updatedAt.substring(0, 10)}</td>
                   </tr>
                 ))
               }
@@ -91,7 +97,9 @@ const Cabinet = observer(() => {
         result1.results[0]
           ?
           <>
-            <Table striped bordered hover>
+            <Table striped bordered hover
+            style={{ width: 700 }} 
+            >
             <caption> <h6>Ваши результаты тестирования:</h6></caption>
                 <thead>
                     <tr>
@@ -118,7 +126,6 @@ const Cabinet = observer(() => {
           </>
           : <div><p>Вы ещё не прошли тестирование</p></div>                                 
       }
-
 
     </Container>
   );

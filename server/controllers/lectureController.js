@@ -29,7 +29,6 @@ class LectureController {
                 },
             )
         }
-        
         return res.json(lecture)
     }
 }

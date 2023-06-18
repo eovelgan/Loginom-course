@@ -1,9 +1,8 @@
-import React, { useContext, useState, useTransition, useEffect } from 'react'
-import { Button, Card, Container, Form, Row, Table, Image } from 'react-bootstrap';
-import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { EXCERCISE_ROUTE, INTERFACE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, START_ROUTE } from '../utils/consts';
+import React, { useState, useEffect } from 'react'
+import { Button, Container } from 'react-bootstrap';
+import {  useNavigate, useParams } from 'react-router-dom';
+import { EXCERCISE_ROUTE } from '../utils/consts';
 import { check } from '../http/userAPI';
-import { Context } from '..';
 import { observer } from 'mobx-react-lite'
 import { fetchLecture } from '../http/lectureAPI';
 import { LECTURE_ROUTE } from '../utils/consts';
@@ -19,14 +18,10 @@ const Lecture = observer(() => {
   const [userId, setUserId] = useState(0)
 
   check().then((data) => {
-    //console.log('setUserId', data)
-
     setUserId(data.id)
   })
 
   useEffect(() => {
-    console.log('use effect id', id)
-
     fetchLecture(id).then(data => {
       setLecture(data)
       updateLectureProgress(data?.id, userId);
@@ -60,7 +55,7 @@ const Lecture = observer(() => {
             onClick={() => history(EXCERCISE_ROUTE + '/1')}
           > Открыть практическое задание</Button>
         </Container>
-          : null
+          : ''
         }
         {
           lecture?.id===7 ?
@@ -71,7 +66,7 @@ const Lecture = observer(() => {
             onClick={() => history(EXCERCISE_ROUTE + '/2')}
           > Открыть практическое задание</Button>
         </Container>
-          : null
+          : ''
         }
         {
           lecture?.next_id

@@ -28,7 +28,7 @@ const Auth = observer(() => {
             }
             user.setUser(user)
             user.setIsAuth(true)
-            history(START2_ROUTE)
+            history(START_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
         }
@@ -43,31 +43,36 @@ const Auth = observer(() => {
                 <Form className="d-flex flex-column">
                     <Form.Control
                         className='mt-3'
-                        placeholder='Введите e-mail'
+                        placeholder={isLogin ? 'Введите e-mail' : 'Введите e-mail *'}
                         value={email}
                         onChange={e => setEmail(e.target.value)}>
                     </Form.Control>
                     <Form.Control
                         className='mt-3'
-                        placeholder='Введите пароль'
+                        placeholder={isLogin ? 'Введите пароль' : 'Введите пароль *'}
+                        aria-describedby="passwordHelpBlock"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         type="password">
                     </Form.Control>
-
+                    {!isLogin ? 
+                    <Form.Text id="passwordHelpBlock" >
+                    Длина пароля должна быть от 4 символов.
+                    </Form.Text>
+                    : ''}
                     {!isLogin ?
                         <>
                             <Form.Control
                                 className='mt-3'
-                                placeholder='Введите фамилию'
-                                value={firstname}
-                                onChange={e => setFirstname(e.target.value)}>
+                                placeholder='Введите фамилию *'
+                                value={lastname}
+                                onChange={e => setLastname(e.target.value)}>
                             </Form.Control>
                             <Form.Control
                                 className='mt-3'
-                                placeholder='Введите имя'
-                                value={lastname}
-                                onChange={e => setLastname(e.target.value)}>
+                                placeholder='Введите имя *'
+                                value={firstname}
+                                onChange={e => setFirstname(e.target.value)}>
                             </Form.Control>
                             <Form.Control
                                 className='mt-3'

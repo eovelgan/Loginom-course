@@ -1,14 +1,12 @@
 import React, { Component, useContext } from 'react'
-import { Routes, Roure, Navigate, Route } from 'react-router-dom'
+import { Routes, Navigate, Route } from 'react-router-dom'
 import { authRoutes, publicRoutes } from '../routes';
-import { LOGIN_ROUTE, MAINSVED_ROUTE, START_ROUTE } from '../utils/consts';
+import { START_ROUTE } from '../utils/consts';
 import { Context } from '../index';
 import { observer } from 'mobx-react-lite';
 
 const AppRouter = observer(() => {
   const { user } = useContext(Context)
-
-  // console.log(user)
 
   return (
     <Routes>

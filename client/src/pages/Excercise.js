@@ -32,6 +32,7 @@ const Excercise = observer(() => {
 
   useEffect(() => {
     fetchOneExcercise(id).then(data => setExcercise(data))
+    setClicked(false)
   }, [id])
   console.log('fileFromUser', fileFromUser)
   const checkAnswer = async () => {
@@ -49,28 +50,43 @@ const Excercise = observer(() => {
     }
   }
 
+  const fileValidation = () =>{
+    var fileInput =
+        document.getElementById('upload');
+     
+    var filePath = fileInput.value;
+ 
+    // Allowing file type
+    var allowedExtensions =
+            /(\.xlsx|\.xls)$/i;
+     
+    if (!allowedExtensions.exec(filePath)) {
+        alert('Пожалуйста, загрузите файл в формате .xlsx или .xls!');
+        fileInput.value = '';
+        return false;
+    }
+}
+
+
   const readUploadFile = (e) => {
     e.preventDefault();
-    if (e.target.files) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = xlsx.read(data, { type: "array" });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        setFileFromUser(xlsx.utils.sheet_to_json(worksheet));
-      };
-      reader.readAsArrayBuffer(e.target.files[0]);
+    if (fileValidation()!==false)
+    {
+      if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = xlsx.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          setFileFromUser(xlsx.utils.sheet_to_json(worksheet));
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+      }
     }
+
+
   }
-
-  // console.log('fileFromUser=', fileFromUser);
-
-  const compareFiles = (object1, object2) => {
-    console.log('lodash=', _.isEqual(object1, object2))
-  }
-
-
 
   return (
 
@@ -97,7 +113,6 @@ const Excercise = observer(() => {
               <Form.Control
                 className='rounded-5'
                 type='file'
-                style={{ width: 250 }}
                 name='upload'
                 id='upload'
                 onChange={readUploadFile}
